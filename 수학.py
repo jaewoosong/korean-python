@@ -1,6 +1,8 @@
 import math
 
-# 9.2.1 단원 (가나다순)
+# 각 단원 내에서 함수는 가나다순으로 정렬되어 있습니다.
+
+# 9.2.1. 정수론 및 숫자 표현 함수
 
 def 무한한가(x):
     math.isinf(x)
@@ -27,14 +29,95 @@ def 팩토리얼(x):
     return math.factorial(x)
 
 
-# 9.2.2 단원: 지수, 로그 함수
+# 9.2.2. 지수, 로그 함수
+
+def 거듭제곱(x, y):
+    return math.pow(x, y)
+
+def 로그(x, base=math.exp(1)):
+    return math.log(x, base)
+
+def 로그1더하기(x):
+    return math.log1p(x)
+
+def 로그2(x):
+    return math.log2(x)
+
+def 로그10(x):
+    return math.log10(x)
+
+def 제곱근(x):
+    return math.sqrt(x)
 
 def 지수함수(x):
     return math.exp(x)
 
+def 지수함수빼기1(x):
+    return math.expm1(x)
+
+
+# 9.2.3. 삼각함수
+
+def 아크코사인(x):
+    return math.acos(x)
+
+def 아크사인(x):
+    return math.asin(x)
+
+def 아크탄젠트(x):
+    return math.atan(x)
+
+math.atan2(y, x)
+Return atan(y / x), in radians. The result is between -pi and pi. The vector in the plane from the origin to point (x, y) makes this angle with the positive X axis. The point of atan2() is that the signs of both inputs are known to it, so it can compute the correct quadrant for the angle. For example, atan(1) and atan2(1, 1) are both pi/4, but atan2(-1, -1) is -3*pi/4.
+
+def 코사인(x):
+    return math.cos(x)
+
+math.hypot(x, y)
+Return the Euclidean norm, sqrt(x*x + y*y). This is the length of the vector from the origin to point (x, y).
+
+def 사인(x):
+    return math.sin(x)
+
+def 탄젠트(x):
+    return math.tan(x)
+
+# 9.2.4. 각 변환
+
+def 도(x):
+    return math.degrees(x)
+
+def 라디안(x):
+    return math.radians(x)
+
+
+
+
+
+
+# 9.2.5. Hyperbolic functions
+Hyperbolic functions are analogs of trigonometric functions that are based on hyperbolas instead of circles.
+
+math.acosh(x)
+Return the inverse hyperbolic cosine of x.
+
+math.asinh(x)
+Return the inverse hyperbolic sine of x.
+
+math.atanh(x)
+Return the inverse hyperbolic tangent of x.
+
+math.cosh(x)
+Return the hyperbolic cosine of x.
+
+math.sinh(x)
+Return the hyperbolic sine of x.
+
+math.tanh(x)
+Return the hyperbolic tangent of x.
+
 
 '''
-
 #math.copysign(x, y)
 #Return a float with the magnitude (absolute value) of x but the sign of y. On platforms that support signed zeros, copysign(1.0, -0.0) returns -1.0.
 
@@ -76,98 +159,6 @@ For the ceil(), floor(), and modf() functions, note that all floating-point numb
 #####################################
 
 '''
-9.2.2. Power and logarithmic functions
-
-
-math.expm1(x)
-Return e**x - 1. For small floats x, the subtraction in exp(x) - 1 can result in a significant loss of precision; the expm1() function provides a way to compute this quantity to full precision:
-
->>>
->>> from math import exp, expm1
->>> exp(1e-5) - 1  # gives result accurate to 11 places
-1.0000050000069649e-05
->>> expm1(1e-5)    # result accurate to full precision
-1.0000050000166668e-05
-New in version 3.2.
-
-math.log(x[, base])
-With one argument, return the natural logarithm of x (to base e).
-
-With two arguments, return the logarithm of x to the given base, calculated as log(x)/log(base).
-
-math.log1p(x)
-Return the natural logarithm of 1+x (base e). The result is calculated in a way which is accurate for x near zero.
-
-math.log2(x)
-Return the base-2 logarithm of x. This is usually more accurate than log(x, 2).
-
-New in version 3.3.
-
-See also int.bit_length() returns the number of bits necessary to represent an integer in binary, excluding the sign and leading zeros.
-math.log10(x)
-Return the base-10 logarithm of x. This is usually more accurate than log(x, 10).
-
-math.pow(x, y)
-Return x raised to the power y. Exceptional cases follow Annex ‘F’ of the C99 standard as far as possible. In particular, pow(1.0, x) and pow(x, 0.0) always return 1.0, even when x is a zero or a NaN. If both x and y are finite, x is negative, and y is not an integer then pow(x, y) is undefined, and raises ValueError.
-
-Unlike the built-in ** operator, math.pow() converts both its arguments to type float. Use ** or the built-in pow() function for computing exact integer powers.
-
-math.sqrt(x)
-Return the square root of x.
-
-9.2.3. Trigonometric functions
-math.acos(x)
-Return the arc cosine of x, in radians.
-
-math.asin(x)
-Return the arc sine of x, in radians.
-
-math.atan(x)
-Return the arc tangent of x, in radians.
-
-math.atan2(y, x)
-Return atan(y / x), in radians. The result is between -pi and pi. The vector in the plane from the origin to point (x, y) makes this angle with the positive X axis. The point of atan2() is that the signs of both inputs are known to it, so it can compute the correct quadrant for the angle. For example, atan(1) and atan2(1, 1) are both pi/4, but atan2(-1, -1) is -3*pi/4.
-
-math.cos(x)
-Return the cosine of x radians.
-
-math.hypot(x, y)
-Return the Euclidean norm, sqrt(x*x + y*y). This is the length of the vector from the origin to point (x, y).
-
-math.sin(x)
-Return the sine of x radians.
-
-math.tan(x)
-Return the tangent of x radians.
-
-9.2.4. Angular conversion
-math.degrees(x)
-Convert angle x from radians to degrees.
-
-math.radians(x)
-Convert angle x from degrees to radians.
-
-9.2.5. Hyperbolic functions
-Hyperbolic functions are analogs of trigonometric functions that are based on hyperbolas instead of circles.
-
-math.acosh(x)
-Return the inverse hyperbolic cosine of x.
-
-math.asinh(x)
-Return the inverse hyperbolic sine of x.
-
-math.atanh(x)
-Return the inverse hyperbolic tangent of x.
-
-math.cosh(x)
-Return the hyperbolic cosine of x.
-
-math.sinh(x)
-Return the hyperbolic sine of x.
-
-math.tanh(x)
-Return the hyperbolic tangent of x.
-
 9.2.6. Special functions
 math.erf(x)
 Return the error function at x.
