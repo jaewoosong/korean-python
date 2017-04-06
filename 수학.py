@@ -2,16 +2,18 @@ import math
 
 # 각 단원 내에서 함수는 가나다순으로 정렬되어 있습니다.
 
+#------------------------------
 # 9.2.1. 정수론 및 숫자 표현 함수
+#------------------------------
 
 def 무한한가(x):
-    math.isinf(x)
+    return math.isinf(x)
 
 def 바닥값(x):
     return math.floor(x)
 
 def 숫자가아닌가(x):
-    math.isnan(x)
+    return math.isnan(x)
 
 def 유한한가(x):
     return math.isfinite(x)
@@ -28,93 +30,6 @@ def 최대공약수(a, b):
 def 팩토리얼(x):
     return math.factorial(x)
 
-
-# 9.2.2. 지수, 로그 함수
-
-def 거듭제곱(x, y):
-    return math.pow(x, y)
-
-def 로그(x, base=math.exp(1)):
-    return math.log(x, base)
-
-def 로그1더하기(x):
-    return math.log1p(x)
-
-def 로그2(x):
-    return math.log2(x)
-
-def 로그10(x):
-    return math.log10(x)
-
-def 제곱근(x):
-    return math.sqrt(x)
-
-def 지수함수(x):
-    return math.exp(x)
-
-def 지수함수빼기1(x):
-    return math.expm1(x)
-
-
-# 9.2.3. 삼각함수
-
-def 아크코사인(x):
-    return math.acos(x)
-
-def 아크사인(x):
-    return math.asin(x)
-
-def 아크탄젠트(x):
-    return math.atan(x)
-
-math.atan2(y, x)
-Return atan(y / x), in radians. The result is between -pi and pi. The vector in the plane from the origin to point (x, y) makes this angle with the positive X axis. The point of atan2() is that the signs of both inputs are known to it, so it can compute the correct quadrant for the angle. For example, atan(1) and atan2(1, 1) are both pi/4, but atan2(-1, -1) is -3*pi/4.
-
-def 코사인(x):
-    return math.cos(x)
-
-math.hypot(x, y)
-Return the Euclidean norm, sqrt(x*x + y*y). This is the length of the vector from the origin to point (x, y).
-
-def 사인(x):
-    return math.sin(x)
-
-def 탄젠트(x):
-    return math.tan(x)
-
-# 9.2.4. 각 변환
-
-def 도(x):
-    return math.degrees(x)
-
-def 라디안(x):
-    return math.radians(x)
-
-
-
-
-
-
-# 9.2.5. Hyperbolic functions
-Hyperbolic functions are analogs of trigonometric functions that are based on hyperbolas instead of circles.
-
-math.acosh(x)
-Return the inverse hyperbolic cosine of x.
-
-math.asinh(x)
-Return the inverse hyperbolic sine of x.
-
-math.atanh(x)
-Return the inverse hyperbolic tangent of x.
-
-math.cosh(x)
-Return the hyperbolic cosine of x.
-
-math.sinh(x)
-Return the hyperbolic sine of x.
-
-math.tanh(x)
-Return the hyperbolic tangent of x.
 
 
 '''
@@ -156,58 +71,130 @@ Note that frexp() and modf() have a different call/return pattern than their C e
 
 For the ceil(), floor(), and modf() functions, note that all floating-point numbers of sufficiently large magnitude are exact integers. Python floats typically carry no more than 53 bits of precision (the same as the platform C double type), in which case any float x with abs(x) >= 2**52 necessarily has no fractional bits.
 '''
-#####################################
 
-'''
-9.2.6. Special functions
-math.erf(x)
-Return the error function at x.
 
-The erf() function can be used to compute traditional statistical functions such as the cumulative standard normal distribution:
 
-def phi(x):
-        'Cumulative distribution function for the standard normal distribution'
-            return (1.0 + erf(x / sqrt(2.0))) / 2.0
-            New in version 3.2.
 
-            math.erfc(x)
-            Return the complementary error function at x. The complementary error function is defined as 1.0 - erf(x). It is used for large values of x where a subtraction from one would cause a loss of significance.
+#------------------------------
+# 9.2.2. 지수, 로그 함수
+#------------------------------
 
-            New in version 3.2.
+def 거듭제곱(x, y):
+    return math.pow(x, y)
 
-            math.gamma(x)
-            Return the Gamma function at x.
+def 로그(x, base=math.exp(1)):
+    return math.log(x, base)
 
-            New in version 3.2.
+def 로그1더하기(x):
+    return math.log1p(x)
 
-            math.lgamma(x)
-            Return the natural logarithm of the absolute value of the Gamma function at x.
+def 로그2(x):
+    return math.log2(x)
 
-            New in version 3.2.
+def 로그10(x):
+    return math.log10(x)
 
-            9.2.7. Constants
-            math.pi
-            The mathematical constant π = 3.141592..., to available precision.
+def 제곱근(x):
+    return math.sqrt(x)
 
-            math.e
-            The mathematical constant e = 2.718281..., to available precision.
+def 지수함수(x):
+    return math.exp(x)
 
-            math.tau
-            The mathematical constant τ = 6.283185..., to available precision. Tau is a circle constant equal to 2π, the ratio of a circle’s circumference to its radius. To learn more about Tau, check out Vi Hart’s video Pi is (still) Wrong, and start celebrating Tau day by eating twice as much pie!
+def 지수함수빼기1(x):
+    return math.expm1(x)
 
-            New in version 3.6.
 
-            math.inf
-            A floating-point positive infinity. (For negative infinity, use -math.inf.) Equivalent to the output of float('inf').
+#------------------------------
+# 9.2.3. 삼각함수
+#------------------------------
 
-            New in version 3.5.
+def 역코사인(x):
+    return math.acos(x)
 
-            math.nan
-            A floating-point “not a number” (NaN) value. Equivalent to the output of float('nan').
+def 역사인(x):
+    return math.asin(x)
 
-            New in version 3.5.
+def 역탄젠트(x):
+    return math.atan(x)
 
-            CPython implementation detail: The math module consists mostly of thin wrappers around the platform C math library functions. Behavior in exceptional cases follows Annex F of the C99 standard where appropriate. The current implementation will raise ValueError for invalid operations like sqrt(-1.0) or log(0.0) (where C99 Annex F recommends signaling invalid operation or divide-by-zero), and OverflowError for results that overflow (for example, exp(1000.0)). A NaN will not be returned from any of the functions above unless one or more of the input arguments was a NaN; in that case, most functions will return a NaN, but (again following C99 Annex F) there are some exceptions to this rule, for example pow(float('nan'), 0.0) or hypot(float('nan'), float('inf')).
-            Note that Python makes no effort to distinguish signaling NaNs from quiet NaNs, and behavior for signaling NaNs remains unspecified. Typical behavior is to treat all NaNs as though they were quiet.
-'''
+def 역탄젠트2(y, x):
+    return math.atan2(y, x)
+
+def 코사인(x):
+    return math.cos(x)
+
+def 유클리드거리(x, y):
+    return math.hypot(x, y)
+
+def 사인(x):
+    return math.sin(x)
+
+def 탄젠트(x):
+    return math.tan(x)
+
+
+#------------------------------
+# 9.2.4. 각 변환
+#------------------------------
+
+def 도(x):
+    return math.degrees(x)
+
+def 라디안(x):
+    return math.radians(x)
+
+
+#------------------------------
+# 9.2.5. 쌍곡선함수
+#------------------------------
+
+def 역쌍곡코사인(x):
+    return math.acosh(x)
+
+def 역쌍곡사인(x):
+    return math.asinh(x)
+
+def 역쌍곡탄젠트(x):
+    return math.atanh(x)
+
+def 쌍곡코사인(x):
+    return math.cosh(x)
+
+def 쌍곡사인(x):
+    return math.sinh(x)
+
+def 쌍곡탄젠트(x):
+    return math.tanh(x)
+
+
+#------------------------------
+# 9.2.6. 특수 함수
+#------------------------------
+
+def 오차함수(x):
+    return math.erf(x)
+
+def 여오차함수(x):
+    return math.erfc(x)
+
+def 감마함수(x):
+    return math.gamma(x)
+
+def 로그감마함수(x):
+    return math.lgamma(x)
+
+
+#------------------------------
+# 9.2.7. 상수
+#------------------------------
+
+원주율 = math.pi
+
+자연상수 = math.e
+
+타우 = math.tau
+
+무한대 = math.inf
+
+숫자아님 = math.nan
 
