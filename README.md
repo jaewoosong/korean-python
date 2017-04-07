@@ -3,6 +3,18 @@
 
 현재 완료된 부분: 수학, 난수
 
+## 작업 원칙
+1. 모든 Korean Python 코드는 Python에서 동작해야 한다. 반대의 경우도 마찬가지.
+2. 직역보다는 의미를 살리는 번역을 한다.
+3. 한국어 단어 사용을 원칙으로 하되, 유용한 경우 외국어를 소리나는대로 옮긴다.
+
+## 참고 사이트
+* ["한글코딩.org"](http://한글코딩.org/)
+* ["김대현님의 미생 프로젝트"](https://github.com/hatemogi/misaeng)
+
+## 라이선스
+GNU GENERAL PUBLIC LICENSE Version 3
+
 ## 예제
 
 ### 수학
