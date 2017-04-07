@@ -52,55 +52,47 @@ def 표본(population, k):
 # 9.6.4. 실수 분포
 #-----------------
 
-'''
-9.6.4. Real-valued distributions
-The following functions generate specific real-valued distributions. Function parameters are named after the corresponding variables in the distribution’s equation, as used in common mathematical practice; most of these equations can be found in any statistics text.
+def 가우스분포(mu, sigma):
+    return random.gauss(mu, sigma)
 
-random.random()
-Return the next random floating point number in the range [0.0, 1.0).
+def 감마분포(alpha, beta):
+    return random.gammavariate(alpha, beta)
 
-random.uniform(a, b)
-Return a random floating point number N such that a <= N <= b for a <= b and b <= N <= a for b < a.
+def 균등분포(a, b):
+    return random.uniform(a, b)
 
-The end-point value b may or may not be included in the range depending on floating-point rounding in the equation a + (b-a) * random().
+def 난수():
+    return random.random()
 
-random.triangular(low, high, mode)
-Return a random floating point number N such that low <= N <= high and with the specified mode between those bounds. The low and high bounds default to zero and one. The mode argument defaults to the midpoint between the bounds, giving a symmetric distribution.
+def 로그정규분포(mu, sigma):
+    return random.lognormvariate(mu, sigma)
 
-random.betavariate(alpha, beta)
-Beta distribution. Conditions on the parameters are alpha > 0 and beta > 0. Returned values range between 0 and 1.
+def 베이불분포(alpha, beta):
+    return random.weibullvariate(alpha, beta)
 
-random.expovariate(lambd)
-Exponential distribution. lambd is 1.0 divided by the desired mean. It should be nonzero. (The parameter would be called “lambda”, but that is a reserved word in Python.) Returned values range from 0 to positive infinity if lambd is positive, and from negative infinity to 0 if lambd is negative.
+def 베타분포(alpha, beta):
+    return random.betavariate(alpha, beta)
 
-random.gammavariate(alpha, beta)
-Gamma distribution. (Not the gamma function!) Conditions on the parameters are alpha > 0 and beta > 0.
+def 삼각분포(low, high, mode):
+    return random.triangular(low, high, mode)
 
-The probability distribution function is:
+def 정규분포(mu, sigma):
+    return random.normalvariate(mu, sigma)
 
-          x ** (alpha - 1) * math.exp(-x / beta)
-pdf(x) =  --------------------------------------
-            math.gamma(alpha) * beta ** alpha
-random.gauss(mu, sigma)
-Gaussian distribution. mu is the mean, and sigma is the standard deviation. This is slightly faster than the normalvariate() function defined below.
+def 지수분포(lambd):
+    return random.expovariate(lambd)
 
-random.lognormvariate(mu, sigma)
-Log normal distribution. If you take the natural logarithm of this distribution, you’ll get a normal distribution with mean mu and standard deviation sigma. mu can have any value, and sigma must be greater than zero.
+def 파레토분포(alpha):
+    return random.paretovariate(alpha)
 
-random.normalvariate(mu, sigma)
-Normal distribution. mu is the mean, and sigma is the standard deviation.
+def 폰미세스분포(mu, kappa):
+    return random.vonmisesvariate(mu, kappa)
 
-random.vonmisesvariate(mu, kappa)
-mu is the mean angle, expressed in radians between 0 and 2*pi, and kappa is the concentration parameter, which must be greater than or equal to zero. If kappa is equal to zero, this distribution reduces to a uniform random angle over the range 0 to 2*pi.
 
-random.paretovariate(alpha)
-Pareto distribution. alpha is the shape parameter.
+#-------------------
+# 9.6.5. 다른 클래스
+#-------------------
 
-random.weibullvariate(alpha, beta)
-Weibull distribution. alpha is the scale parameter and beta is the shape parameter.
+#class 시스템난수([seed])
+#class random.SystemRandom([seed])
 
-9.6.5. Alternative Generator
-class random.SystemRandom([seed])
-Class that uses the os.urandom() function for generating random numbers from sources provided by the operating system. Not available on all systems. Does not rely on software state, and sequences are not reproducible. Accordingly, the seed() method has no effect and is ignored. The getstate() and setstate() methods raise NotImplementedError if called.
-
-'''
