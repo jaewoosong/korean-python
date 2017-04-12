@@ -1,208 +1,64 @@
+import os
 import shutil
+
+# 각 단원 내에서 함수는 가나다순으로 정렬되어 있습니다.
+
+#-------------------------------
+# 11.10.1. 디렉토리 및 파일 작업
+#-------------------------------
+
+def 복사(src, dst, *, follow_symlinks=True):
+    return shutil.copy(src, dst, follow_symlinks=follow_symlinks)
+
+def 복사2(src, dst, *, follow_symlinks=True):
+    return shutil.copy2(src, dst, follow_symlinks=follow_symlinks)
+
+def 접근권한복사(src, dst, *, follow_symlinks=True):
+    return shutil.copymode(src, dst, follow_symlinks=follow_symlinks)
+
+def 파일객체복사(fsrc, fdst, length=16*1024):
+    return shutil.copyfileobj(fsrc, fdst, length)
+
+def 파일복사(src, dst, *, follow_symlinks=True):
+    return shutil.copyfile(src, dst, follow_symlinks=follow_symlinks)
+
+def 파일상태복사(src, dst, *, follow_symlinks=True):
+    return shutil.copystat(src, dst, follow_symlinks=follow_symlinks)
+
+def 디렉토리복사(src, dst, symlinks=False, ignore=None,
+                 copy_function=shutil.copy2, ignore_dangling_symlinks=False):
+    return copytree(src, dst, symlinks=symlinks, ignore=ignore,
+                    copy_function=copy_function,
+                    ignore_dangling_symlinks=ignore_dangling_symlinks)
+
+def 디렉토리삭제(path, ignore_errors=False, onerror=None):
+    # rmtree.avoids_symlink_attacks
+    return shutil.rmtree(path, ignore_errors=ignore_errors, onerror=onerror)
+
+def 이동(src, dst, copy_function=shutil.copy2):
+    return shutil.move(src, dst, copy_function=copy_function)
+
+# shutil.ignore_patterns(*patterns)
+# This factory function creates a function that can be used as a callable for copytree()‘s ignore argument, ignoring files and directories that match one of the glob-style patterns provided. See the example below.
+
+def 디스크사용량(path):
+    return shutil.disk_usage(path)
+
+def 소유권변경(path, user=None, group=None):
+    return shutil.chown(path, user=user, group=group)
+
+def 어디(cmd, mode=os.F_OK | os.X_OK, path=None):
+    return shutil.which(cmd, mode=mode, path=path)
+
+#exception shutil.Error
+
+
+#------------------------
+# 11.10.2. 압축 파일 작업
+#------------------------
+
 
 '''
-
-11.10.1. Directory and files operations
-shutil.copyfileobj(fsrc, fdst[, length])
-Copy the contents of the file-like object fsrc to the file-like object fdst. The integer length, if given, is the buffer size. In particular, a negative length value means to copy the data without looping over the source data in chunks; by default the data is read in chunks to avoid uncontrolled memory consumption. Note that if the current file position of the fsrc object is not 0, only the contents from the current file position to the end of the file will be copied.
-
-shutil.copyfile(src, dst, *, follow_symlinks=True)
-Copy the contents (no metadata) of the file named src to a file named dst and return dst. src and dst are path names given as strings. dst must be the complete target file name; look at shutil.copy() for a copy that accepts a target directory path. If src and dst specify the same file, SameFileError is raised.
-
-The destination location must be writable; otherwise, an OSError exception will be raised. If dst already exists, it will be replaced. Special files such as character or block devices and pipes cannot be copied with this function.
-
-If follow_symlinks is false and src is a symbolic link, a new symbolic link will be created instead of copying the file src points to.
-
-Changed in version 3.3: IOError used to be raised instead of OSError. Added follow_symlinks argument. Now returns dst.
-
-Changed in version 3.4: Raise SameFileError instead of Error. Since the former is a subclass of the latter, this change is backward compatible.
-
-exception shutil.SameFileError
-This exception is raised if source and destination in copyfile() are the same file.
-
-New in version 3.4.
-
-shutil.copymode(src, dst, *, follow_symlinks=True)
-Copy the permission bits from src to dst. The file contents, owner, and group are unaffected. src and dst are path names given as strings. If follow_symlinks is false, and both src and dst are symbolic links, copymode() will attempt to modify the mode of dst itself (rather than the file it points to). This functionality is not available on every platform; please see copystat() for more information. If copymode() cannot modify symbolic links on the local platform, and it is asked to do so, it will do nothing and return.
-
-Changed in version 3.3: Added follow_symlinks argument.
-
-shutil.copystat(src, dst, *, follow_symlinks=True)
-Copy the permission bits, last access time, last modification time, and flags from src to dst. On Linux, copystat() also copies the “extended attributes” where possible. The file contents, owner, and group are unaffected. src and dst are path names given as strings.
-
-If follow_symlinks is false, and src and dst both refer to symbolic links, copystat() will operate on the symbolic links themselves rather than the files the symbolic links refer to—reading the information from the src symbolic link, and writing the information to the dst symbolic link.
-
-Note Not all platforms provide the ability to examine and modify symbolic links. Python itself can tell you what functionality is locally available.
-If os.chmod in os.supports_follow_symlinks is True, copystat() can modify the permission bits of a symbolic link.
-If os.utime in os.supports_follow_symlinks is True, copystat() can modify the last access and modification times of a symbolic link.
-If os.chflags in os.supports_follow_symlinks is True, copystat() can modify the flags of a symbolic link. (os.chflags is not available on all platforms.)
-On platforms where some or all of this functionality is unavailable, when asked to modify a symbolic link, copystat() will copy everything it can. copystat() never returns failure.
-Please see os.supports_follow_symlinks for more information.
-Changed in version 3.3: Added follow_symlinks argument and support for Linux extended attributes.
-
-shutil.copy(src, dst, *, follow_symlinks=True)
-Copies the file src to the file or directory dst. src and dst should be strings. If dst specifies a directory, the file will be copied into dst using the base filename from src. Returns the path to the newly created file.
-
-If follow_symlinks is false, and src is a symbolic link, dst will be created as a symbolic link. If follow_symlinks is true and src is a symbolic link, dst will be a copy of the file src refers to.
-
-copy() copies the file data and the file’s permission mode (see os.chmod()). Other metadata, like the file’s creation and modification times, is not preserved. To preserve all file metadata from the original, use copy2() instead.
-
-Changed in version 3.3: Added follow_symlinks argument. Now returns path to the newly created file.
-
-shutil.copy2(src, dst, *, follow_symlinks=True)
-Identical to copy() except that copy2() also attempts to preserve all file metadata.
-
-When follow_symlinks is false, and src is a symbolic link, copy2() attempts to copy all metadata from the src symbolic link to the newly-created dst symbolic link. However, this functionality is not available on all platforms. On platforms where some or all of this functionality is unavailable, copy2() will preserve all the metadata it can; copy2() never returns failure.
-
-copy2() uses copystat() to copy the file metadata. Please see copystat() for more information about platform support for modifying symbolic link metadata.
-
-Changed in version 3.3: Added follow_symlinks argument, try to copy extended file system attributes too (currently Linux only). Now returns path to the newly created file.
-
-shutil.ignore_patterns(*patterns)
-This factory function creates a function that can be used as a callable for copytree()‘s ignore argument, ignoring files and directories that match one of the glob-style patterns provided. See the example below.
-
-shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=False)
-Recursively copy an entire directory tree rooted at src, returning the destination directory. The destination directory, named by dst, must not already exist; it will be created as well as missing parent directories. Permissions and times of directories are copied with copystat(), individual files are copied using shutil.copy2().
-
-If symlinks is true, symbolic links in the source tree are represented as symbolic links in the new tree and the metadata of the original links will be copied as far as the platform allows; if false or omitted, the contents and metadata of the linked files are copied to the new tree.
-
-When symlinks is false, if the file pointed by the symlink doesn’t exist, an exception will be added in the list of errors raised in an Error exception at the end of the copy process. You can set the optional ignore_dangling_symlinks flag to true if you want to silence this exception. Notice that this option has no effect on platforms that don’t support os.symlink().
-
-If ignore is given, it must be a callable that will receive as its arguments the directory being visited by copytree(), and a list of its contents, as returned by os.listdir(). Since copytree() is called recursively, the ignore callable will be called once for each directory that is copied. The callable must return a sequence of directory and file names relative to the current directory (i.e. a subset of the items in its second argument); these names will then be ignored in the copy process. ignore_patterns() can be used to create such a callable that ignores names based on glob-style patterns.
-
-If exception(s) occur, an Error is raised with a list of reasons.
-
-If copy_function is given, it must be a callable that will be used to copy each file. It will be called with the source path and the destination path as arguments. By default, shutil.copy2() is used, but any function that supports the same signature (like shutil.copy()) can be used.
-
-Changed in version 3.3: Copy metadata when symlinks is false. Now returns dst.
-
-Changed in version 3.2: Added the copy_function argument to be able to provide a custom copy function. Added the ignore_dangling_symlinks argument to silent dangling symlinks errors when symlinks is false.
-
-shutil.rmtree(path, ignore_errors=False, onerror=None)
-Delete an entire directory tree; path must point to a directory (but not a symbolic link to a directory). If ignore_errors is true, errors resulting from failed removals will be ignored; if false or omitted, such errors are handled by calling a handler specified by onerror or, if that is omitted, they raise an exception.
-
-Note On platforms that support the necessary fd-based functions a symlink attack resistant version of rmtree() is used by default. On other platforms, the rmtree() implementation is susceptible to a symlink attack: given proper timing and circumstances, attackers can manipulate symlinks on the filesystem to delete files they wouldn’t be able to access otherwise. Applications can use the rmtree.avoids_symlink_attacks function attribute to determine which case applies.
-If onerror is provided, it must be a callable that accepts three parameters: function, path, and excinfo.
-
-The first parameter, function, is the function which raised the exception; it depends on the platform and implementation. The second parameter, path, will be the path name passed to function. The third parameter, excinfo, will be the exception information returned by sys.exc_info(). Exceptions raised by onerror will not be caught.
-
-Changed in version 3.3: Added a symlink attack resistant version that is used automatically if platform supports fd-based functions.
-
-rmtree.avoids_symlink_attacks
-Indicates whether the current platform and implementation provides a symlink attack resistant version of rmtree(). Currently this is only true for platforms supporting fd-based directory access functions.
-
-New in version 3.3.
-
-shutil.move(src, dst, copy_function=copy2)
-Recursively move a file or directory (src) to another location (dst) and return the destination.
-
-If the destination is an existing directory, then src is moved inside that directory. If the destination already exists but is not a directory, it may be overwritten depending on os.rename() semantics.
-
-If the destination is on the current filesystem, then os.rename() is used. Otherwise, src is copied to dst using copy_function and then removed. In case of symlinks, a new symlink pointing to the target of src will be created in or as dst and src will be removed.
-
-If copy_function is given, it must be a callable that takes two arguments src and dst, and will be used to copy src to dest if os.rename() cannot be used. If the source is a directory, copytree() is called, passing it the copy_function(). The default copy_function is copy2(). Using copy() as the copy_function allows the move to succeed when it is not possible to also copy the metadata, at the expense of not copying any of the metadata.
-
-Changed in version 3.3: Added explicit symlink handling for foreign filesystems, thus adapting it to the behavior of GNU’s mv. Now returns dst.
-
-Changed in version 3.5: Added the copy_function keyword argument.
-
-shutil.disk_usage(path)
-Return disk usage statistics about the given path as a named tuple with the attributes total, used and free, which are the amount of total, used and free space, in bytes.
-
-New in version 3.3.
-
-Availability: Unix, Windows.
-
-shutil.chown(path, user=None, group=None)
-Change owner user and/or group of the given path.
-
-user can be a system user name or a uid; the same applies to group. At least one argument is required.
-
-See also os.chown(), the underlying function.
-
-Availability: Unix.
-
-New in version 3.3.
-
-shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None)
-Return the path to an executable which would be run if the given cmd was called. If no cmd would be called, return None.
-
-mode is a permission mask passed to os.access(), by default determining if the file exists and executable.
-
-When no path is specified, the results of os.environ() are used, returning either the “PATH” value or a fallback of os.defpath.
-
-On Windows, the current directory is always prepended to the path whether or not you use the default or provide your own, which is the behavior the command shell uses when finding executables. Additionally, when finding the cmd in the path, the PATHEXT environment variable is checked. For example, if you call shutil.which("python"), which() will search PATHEXT to know that it should look for python.exe within the path directories. For example, on Windows:
-
->>>
->>> shutil.which("python")
-'C:\\Python33\\python.EXE'
-New in version 3.3.
-
-exception shutil.Error
-This exception collects exceptions that are raised during a multi-file operation. For copytree(), the exception argument is a list of 3-tuples (srcname, dstname, exception).
-
-11.10.1.1. copytree example
-This example is the implementation of the copytree() function, described above, with the docstring omitted. It demonstrates many of the other functions provided by this module.
-
-def copytree(src, dst, symlinks=False):
-    names = os.listdir(src)
-    os.makedirs(dst)
-    errors = []
-    for name in names:
-        srcname = os.path.join(src, name)
-        dstname = os.path.join(dst, name)
-        try:
-            if symlinks and os.path.islink(srcname):
-                linkto = os.readlink(srcname)
-                os.symlink(linkto, dstname)
-            elif os.path.isdir(srcname):
-                copytree(srcname, dstname, symlinks)
-            else:
-                copy2(srcname, dstname)
-            # XXX What about devices, sockets etc.?
-        except OSError as why:
-            errors.append((srcname, dstname, str(why)))
-        # catch the Error from the recursive copytree so that we can
-        # continue with other files
-        except Error as err:
-            errors.extend(err.args[0])
-    try:
-        copystat(src, dst)
-    except OSError as why:
-        # can't copy file access times on Windows
-        if why.winerror is None:
-            errors.extend((src, dst, str(why)))
-    if errors:
-        raise Error(errors)
-Another example that uses the ignore_patterns() helper:
-
-from shutil import copytree, ignore_patterns
-
-copytree(source, destination, ignore=ignore_patterns('*.pyc', 'tmp*'))
-This will copy everything except .pyc files and files or directories whose name starts with tmp.
-
-Another example that uses the ignore argument to add a logging call:
-
-from shutil import copytree
-import logging
-
-def _logpath(path, names):
-    logging.info('Working in %s', path)
-    return []   # nothing will be ignored
-
-copytree(source, destination, ignore=_logpath)
-11.10.1.2. rmtree example
-This example shows how to remove a directory tree on Windows where some of the files have their read-only bit set. It uses the onerror callback to clear the readonly bit and reattempt the remove. Any subsequent failure will propagate.
-
-import os, stat
-import shutil
-
-def remove_readonly(func, path, _):
-    "Clear the readonly bit and reattempt the removal"
-    os.chmod(path, stat.S_IWRITE)
-    func(path)
-
-shutil.rmtree(directory, onerror=remove_readonly)
 11.10.2. Archiving operations
 New in version 3.2.
 
@@ -305,6 +161,14 @@ drwx------ tarek/staff       0 2010-02-01 16:23:40 ./
 -rw------- tarek/staff    1675 2008-06-09 13:26:54 ./id_rsa
 -rw-r--r-- tarek/staff     397 2008-06-09 13:26:54 ./id_rsa.pub
 -rw-r--r-- tarek/staff   37192 2010-02-06 18:23:10 ./known_hosts
+'''
+
+
+#--------------------
+# 11.10.3. 
+#--------------------
+
+'''
 11.10.3. Querying the size of the output terminal
 shutil.get_terminal_size(fallback=(columns, lines))
 Get the size of the terminal window.
