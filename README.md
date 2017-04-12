@@ -63,7 +63,7 @@ GNU GENERAL PUBLIC LICENSE Version 3
 
 #### 셸유틸
 * `셸유틸.어디("python")`
-    * `'/home/jaewoo/Programs/anaconda3/bin/python'`
+    * `'/home/owner/anaconda3/bin/python'`
 * `셸유틸.디스크사용량("./")`
     * `usage(total=773625675776, used=53998215168, free=680305967104)`
 
