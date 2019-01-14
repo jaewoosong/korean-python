@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 def 바닥(x):
     u"""바닥 함수"""
     if isinstance(x, int):
