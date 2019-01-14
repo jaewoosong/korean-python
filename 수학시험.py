@@ -4,12 +4,12 @@ import 수학
 
 class 수학시험(unittest.TestCase):
 
-    def test_천장(self):
-        print('천장 함수 시험')
+    def test_바닥(self):
+        print('바닥 함수 시험')
         입력 = [3.7, 2, 0, -4, -5.9]
         for x in 입력:
-            값1 = math.ceil(x)
-            값2 = 수학.천장(x)
+            값1 = math.floor(x)
+            값2 = 수학.바닥(x)
             self.assertEqual(값1, 값2)
 
     def test_절댓값(self):
@@ -18,6 +18,14 @@ class 수학시험(unittest.TestCase):
         for x in 입력:
             값1 = math.fabs(x)
             값2 = 수학.절댓값(x)
+            self.assertEqual(값1, 값2)
+
+    def test_천장(self):
+        print('천장 함수 시험')
+        입력 = [3.7, 2, 0, -4, -5.9]
+        for x in 입력:
+            값1 = math.ceil(x)
+            값2 = 수학.천장(x)
             self.assertEqual(값1, 값2)
 
     def test_팩토리얼(self):
