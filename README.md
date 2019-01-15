@@ -26,8 +26,8 @@
 * `통계.평균(자료)`
 
 ## 시험해보기
-`python 수학시험.py`
-`python 통계시험.py`
+* `python 수학시험.py`
+* `python 통계시험.py`
 
 ## 참고 사이트
 * [한글코딩.org](http://한글코딩.org/)
